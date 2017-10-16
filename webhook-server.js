@@ -1,12 +1,11 @@
-var fs = require('fs');
-var util = require('util');
-var log_file = fs.createWriteStream(__dirname + '/debug.log', {flags : 'w'});
-var log_stdout = process.stdout;
-
-console.log = function(d) { //
-  log_file.write(util.format(d) + '\n');
-  log_stdout.write(util.format(d) + '\n');
-};
+var log4js = require('log4js');
+log4js.configure({
+  appenders: { file: { type: 'file', filename: 'debug.log' } },
+  categories: { default: { appenders: ['file'], level: 'debug' } }
+});
+var logger = log4js.getLogger('file');
+logger.level = 'debug';
+logger.debug("Starting server...");
 
 var http = require('http')
 var createHandler = require('node-github-webhook')
@@ -23,18 +22,15 @@ http.createServer(function (req, res) {
 }).listen(7777)
  
 handler.on('error', function (err) {
-  console.error('Error:', err.message)
+  logger.error('Error:', err.message);
 })
  
 handler.on('push', function (event) {
-  console.log(
-    'Received a push event for %s to %s',
-    event.payload.repository.name,
-    event.payload.ref
-  )
+  logger.debug('Received a push event: ', event);
+  logger.debug('Received a push event for %s to %s', event.payload.repository.name, event.payload.ref);
   switch(event.path) {
     case '/blogevents':
-      // do sth about blogevents 
+      logger.debug('BlogEvents hit!');
       break
     default:
       // do sth else or nothing 
