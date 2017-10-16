@@ -1,0 +1,14 @@
+{
+    "name": "webhook-server",
+    "version": "1.0.0",
+    "description": "GitHub WebHook server",
+    "author": "André Biseth andre@biseth.net>",
+    "main": "webhook-server.js",
+    "scripts": {
+      "start": "node webhook-server.js"
+    },
+    "dependencies": {
+      "express": "^4.13.3",
+      "node-github-webhook": "1.0.7"
+    }
+  }
