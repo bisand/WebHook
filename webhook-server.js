@@ -25,7 +25,7 @@ handler.on('error', function (err) {
   logger.error('Error:', err.message);
 })
  
-handler.on('push', function (event) {
+handler.on('*', function (event) {
   logger.debug('Received a push event: ', event);
   logger.debug('Received a push event for %s to %s', event.payload.repository.name, event.payload.ref);
   switch(event.path) {
