@@ -10,6 +10,7 @@
     "dependencies": {
       "express": "^4.13.3",
       "node-github-webhook": "1.0.7",
-      "log4js": "2.3.5"
+      "log4js": "2.3.5",
+      "ssh-exec": "2.0.0"
     }
   }
