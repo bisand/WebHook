@@ -15,10 +15,8 @@ var handler = createHandler([ // multiple handlers
 // var handler = createHandler({ path: '/webhook1', secret: 'secret1' }) // single handler 
 
 var exec = require('ssh-exec')
-
 // using ~/.ssh/id_rsa as the private key 
-
-exec('ls -lh', 'ubuntu@my-remote.com').pipe(process.stdout)
+exec('ls -lh', 'root@gollum').pipe(process.stdout)
 
 http.createServer(function (req, res) {
   handler(req, res, function (err) {
