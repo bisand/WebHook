@@ -1,5 +1,17 @@
 FROM node:alpine
 
+# Install needed packages.
+RUN apk update && apk add -f \
+    curl \
+    nano \
+    git \
+    openssh-client
+
+# TODO:
+# Generate ssh keys and include them in the install:
+# http://www.firedaemon.com/blog/passwordless-root-ssh-public-key-authentication-on-centos-6
+
+
 # Create app directory
 WORKDIR /usr/src/app
 
