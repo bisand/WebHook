@@ -10,7 +10,10 @@ RUN apk update && apk add -f \
 # TODO:
 # Generate ssh keys and include them in the install:
 # http://www.firedaemon.com/blog/passwordless-root-ssh-public-key-authentication-on-centos-6
+RUN mkdir /root/.ssh
+RUN chmod 700 /root/.ssh
 COPY sshkeys /root/.ssh/
+RUN chmod 600 /root/.ssh/*
 
 # Create app directory
 WORKDIR /usr/src/app
