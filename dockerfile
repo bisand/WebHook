@@ -19,14 +19,14 @@ RUN chmod 600 /root/.ssh/*
 WORKDIR /usr/src/app
 
 # Install app dependencies
-COPY package.json .
+#COPY package.json .
 # For npm@5 or later, copy package-lock.json as well
 # COPY package.json package-lock.json ./
 
-RUN npm install
-
 # Bundle app source
-COPY . .
+COPY app .
+
+RUN npm install
 
 EXPOSE 7777
 CMD [ "npm", "start" ]
