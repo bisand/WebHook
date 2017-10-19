@@ -35,7 +35,7 @@ handler.on('*', function (event) {
   logger.debug('Received a push event for %s to %s', event.payload.repository.name, event.payload.ref);
   switch(event.path) {
     case '/blogevents':
-      sshExec('git clone ' + event.payload.repository.clone_url + ' /tmp/' + event.payload.repository.name + ' && cd /tmp/' + event.payload.repository.name + '/ && ls -hal', 'root@gollum', function (err, stdout, stderr) {
+      sshExec('git clone ' + event.payload.repository.clone_url + ' /tmp/' + event.payload.repository.name + ' && cd /tmp/' + event.payload.repository.name + '/ && ls -hal && dotnet publish -o ./publish/', 'root@gollum', function (err, stdout, stderr) {
         logger.debug('Results from deployment: ', err, stdout, stderr);
       });
     break
