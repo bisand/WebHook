@@ -16,7 +16,9 @@ var handler = createHandler([ // multiple handlers
 
 var sshExec = require('ssh-exec')
 // using ~/.ssh/id_rsa as the private key 
-sshExec('ls -lh', 'root@gollum').pipe(process.stdout)
+sshExec('ls -lh', 'root@gollum', function (err, stdout, stderr) {
+  logger.debug('Starting up server. Testing SSH: ', err, stdout, stderr);
+})
 
 http.createServer(function (req, res) {
   handler(req, res, function (err) {
@@ -33,7 +35,9 @@ handler.on('*', function (event) {
   logger.debug('Received a push event for %s to %s', event.payload.repository.name, event.payload.ref);
   switch(event.path) {
     case '/blogevents':
-      sshExec('git clone ' + event.payload.repository.clone_url + ' /tmp/blog && cd /tmp/blog/ && ls -hal', 'root@gollum').pipe(process.stdout)
+      sshExec('git clone ' + event.payload.repository.clone_url + ' /tmp/' + event.payload.repository.name + ' && cd /tmp/' + event.payload.repository.name + '/ && ls -hal', 'root@gollum', function (err, stdout, stderr) {
+        logger.debug('Results from deployment: ', err, stdout, stderr);
+      });
     break
     default:
       // do sth else or nothing 
