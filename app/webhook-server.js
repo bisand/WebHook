@@ -14,9 +14,9 @@ var handler = createHandler([ // multiple handlers
 ])
 // var handler = createHandler({ path: '/webhook1', secret: 'secret1' }) // single handler 
 
-var exec = require('ssh-exec')
+var sshExec = require('ssh-exec')
 // using ~/.ssh/id_rsa as the private key 
-exec('ls -lh', 'root@gollum').pipe(process.stdout)
+sshExec('ls -lh', 'root@gollum').pipe(process.stdout)
 
 http.createServer(function (req, res) {
   handler(req, res, function (err) {
@@ -30,14 +30,11 @@ handler.on('error', function (err) {
 })
  
 handler.on('*', function (event) {
-  logger.debug('Received a push event: ', event);
   logger.debug('Received a push event for %s to %s', event.payload.repository.name, event.payload.ref);
   switch(event.path) {
     case '/blogevents':
-      ssh.command('echo', 'test', function(procResult) {
-        console.log(procResult.stdout);
-      });
-      break
+      sshExec('git clone ' + event.payload.repository.clone_url + ' /tmp/blog && cd /tmp/blog/ && ls -hal', 'root@gollum').pipe(process.stdout)
+    break
     default:
       // do sth else or nothing 
       break
